@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>Kaisa?Paisa</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width">
+  <link href="assets/css/blue.css" media="all" rel="stylesheet" type="text/css" />
+  <link href="http://fonts.googleapis.com/css?family=Abel:400|Oswald:300,400,700" media="all" rel="stylesheet" type="text/css" />
+  <meta name="google-signin-clientid" content="785220955686.apps.googleusercontent.com" />
+  <meta name="google-signin-cookiepolicy" content="single_host_origin" />
+  <meta name="google-signin-callback" content="handleAuthResult" />
+  <meta name="google-signin-scope" content="https://www.googleapis.com/auth/games" />
+</head>
+<body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+            <![endif]-->
+            <header id='header'>
+              <div class='navbar navbar-fixed-top'>
+                <div class='navbar-inner'>
+                  <div class='container'>
+                    <a class='btn btn-navbar' data-target='.nav-collapse' data-toggle='collapse'>
+                      <span class='icon-bar'></span>
+                      <span class='icon-bar'></span>
+                      <span class='icon-bar'></span>
+                    </a>
+                    <a href="index.html" class="brand"><img src="assets/images/logo.png" alt="logo" style="height:50px;" /></a>
+                    <div class='nav-collapse subnav-collapse collapse pull-right' id='top-navigation'>
+                      <!--ul class='nav'>
+                        <li class='active'>
+                          <a href="index.html">Home</a>
+                        </li>
+                        <li class=''>
+                          <a href="about.html">About</a>
+                        </li>
+                      </ul-->
+                      <div class='top-account-control visible-desktop'>
+                            <button id="signoutButton" class="btn btn-info hide">sign out</button>
+                            <span id="signinButton">
+                              <span
+                                      class="g-signin"
+                                      data-clientid="785220955686.apps.googleusercontent.com"
+                                      data-cookiepolicy="single_host_origin"
+                                      data-scope="https://www.googleapis.com/auth/plus.login">
+                              </span>
+                            </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </header>
+
+
+            <div class='sub-slider-features' id='GameInfo'>
+              <div class='container'>
+                <div class='row'>
+                  <div class='span8'>
+                      <img src='assets/images/biglogo.png' alt='Big logo' />
+                  </div>
+                    <div class='span4'>
+                        <div class='info-bullet'>
+                            <i class='icon-money'></i>
+                            <h5>Money Game for Kids</h5>
+                            <p style="font-size:1.5em;">Kaisa Paisa teaches youth how to make better financial decisions.</p>
+                        </div>
+                    </div>
+                </div>
+              </div>
+            </div>
+
+        <section class='sub-slider-features section-wrapper stripped hide' id='GameDetail'>
+            <div class='container'>
+                <div class='row'>
+                    <div class='span12'>
+                        <h3 class='section-header'>MONEY GAME</h3>
+                        <div class='white-card no-padding'>
+
+                            <ul class='nav nav-pills' id='myPills'>
+                                <li class='active'>
+                                    <a href="#IntroSection" data-toggle="pill">INTRO</a>
+                                </li>
+                                <li>
+                                    <a href="#PiggyBankSection" data-toggle="pill">PIGGY BANK</a>
+                                </li>
+                                <li>
+                                    <a href="#BankSection" data-toggle="pill">BANK</a>
+                                </li>
+                                <li>
+                                    <a href="#LivestockSection" data-toggle="pill">LIVESTOCK</a>
+                                </li>
+                                <li>
+                                    <a href="#PropertySection" data-toggle="pill">PROPERTY</a>
+                                </li>
+                                <li>
+                                    <a href="#ResultSection" data-toggle="pill">RESULT</a>
+                                </li>
+                            </ul>
+                            <div class='tab-content'>
+                                <div class='tab-pane active' id='IntroSection'>
+                                    <h2 style="margin: 15px 0">Help Hari, the farmer, make good financial decisions</h2>
+                                    <div id='IntroSectionContent'>
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <div class="well">
+                                                    <h2>What Hari has</h2>
+                                                </div>
+                                                <div id="HariHas"></div>
+                                            </div>
+                                            <div class="span6">
+                                                <div class="well">
+                                                    <h2>What Hari needs</h2>
+                                                </div>
+                                                <div id="HariNeeds"></div>
+
+
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class='tab-pane' id='PiggyBankSection'>
+                                    <h4 style="margin: 15px 0">You can put some of your money into a Piggy Bank. It will stay safe there, but it will not grow since a Piggy Bank does not provide Interest.</h4>
+                                    <div id='PiggyBankSectionContent'>
+                                        <div class="row">
+                                            <div class="span5">
+                                                <img src="assets/images/pig.jpg" style="width:100%;">
+
+                                            </div>
+                                            <div class="span4">
+                                                <h4>Piggy Bank Amount:</h4> <select id="PiggyBankAmount" style="font-size: 2.5em;width:350px;height:50px;"></select>
+
+
+
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class='tab-pane' id='BankSection'>
+                                    <h4 style="margin: 15px 0">You can put some of your money into the Bank. The money will earn Interest and grow. The longer you leave it in the Bank, the more it will grow.</h4>
+                                    <div id='BankSectionContent'>
+
+                                        <div class="row">
+                                            <div class="span5">
+                                                <img src="assets/images/bank.jpg" style="width:100%;">
+
+                                            </div>
+                                            <div class="span4">
+                                                <h4>Bank Interest Rate: <span id="BankRate"></span></h4>
+
+                                                <h4>Bank Amount:</h4>
+                                                <select id="BankAmount" style="font-size: 2.5em;width:350px;height:50px;"></select>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+                                </div>
+                                <div class='tab-pane' id='LivestockSection'>
+                                    <h4 style="margin: 15px 0">Your farm has livestock. You make money by selling the milk or eggs given by the animals. If you sell an animal, you will no longer make any money from it. If you keep the animal, you must pay to feed it and make sure it remains healthy.</h4>
+                                    <div id='LivestockSectionContent'></div>
+                                </div>
+                                <div class='tab-pane' id='PropertySection'>
+                                    <h4 style="margin: 15px 0">Your farm has livestock. You make money by selling the milk or eggs given by the animals. If you sell an animal, you will no longer make any money from it. If you keep the animal, you must pay to feed it and make sure it remains healthy.</h4>
+                                    <div id='PropertySectionContent'></div>
+                                </div>
+
+                                <div class='tab-pane' id='ResultSection'>
+                                    <h4 style="margin: 15px 0">Your farm has livestock. You make money by selling the milk or eggs given by the animals. If you sell an animal, you will no longer make any money from it. If you keep the animal, you must pay to feed it and make sure it remains healthy.</h4>
+                                    <div id='ResultSectionContent'></div></div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+            <section class='section-wrapper stripped' id='LevelInfo'>
+              <div class='container'>
+                <div class='row'>
+                  <div class='span12'>
+                    <h3 class='section-header'>GAME LEVELS</h3>
+                    <div class='white-card no-padding'>
+                      <div class='pricing-table'>
+                        <div class='row'>
+                          <div class='span3'>
+                            <div class='pricing-plan-w first-plan'>
+                              <div class='plan-name'>
+                                EASY
+                              </div>
+                              <div class='plan-desc'>
+
+                                <p style="font-size:1.3em;">Choose this level if you are playing for the first time.</p>
+                                <a href="#" rel="1" class="btn btn-primary btn-large btn-level">Select This Level</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class='span3'>
+                            <div class='pricing-plan-w'>
+                              <div class='plan-name'>
+                                MEDIUM
+                              </div>
+                              <div class='plan-desc'>
+
+                                <p style="font-size:1.3em;">Choose this level if you already know the basics.</p>
+                                <a href="#" rel="2" class="btn btn-primary btn-large btn-level">Select This Level</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class='span3'>
+                            <div class='pricing-plan-w'>
+                              <div class='plan-name'>
+                                DIFFICULT
+                              </div>
+                              <div class='plan-desc'>
+
+                                <p style="font-size:1.3em;">Choose this level if you want to challenge yourself.</p>
+                                <a href="#" rel="3" class="btn btn-primary btn-large btn-level">Select This Level</a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class='span3'>
+                            <div class='pricing-plan-w last-plan'>
+                              <div class='plan-name'>
+                                INSANE
+                              </div>
+                              <div class='plan-desc'>
+
+                                <p style="font-size:1.3em;">Choose this level if you are completely crazy.</p>
+                                <a href="#" rel="4" class="btn btn-primary btn-large btn-level">Select This Level</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <footer>
+
+              <div class='deep-footer'>
+                <div class='container'>
+                  <div class='row'>
+                    <div class='span6'>
+                      <div class='copyright'>Copyright &copy; 2014 Nik Kalyani & Gia Kalyani</div>
+                    </div>
+                    <div class='span6'>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </footer>
+
+            <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+            <script src="assets/js/bootstrap.js"></script>
+            <!--script src="assets/js/prettify.js"></script -->
+            <script src="assets/js/lightbox.js"></script>
+            <script src="assets/js/main.js"></script>
+            <script src="https://apis.google.com/js/client.js"></script>
+            <script src="assets/js/game.js"></script>
+
+            <script>
+
+                handleAuthResult = function(auth) {
+                    if (auth && auth.error == null) {
+                        // Hooray! The user is logged int!
+                        // If we got here from a sign-in button, we should probably hide it
+                        console.log(auth);
+                        $('#signinButton').hide();
+                        $('#signoutButton').show();
+                    } else {
+                        // Common reasons are immediate_failed and user_signed_out
+                        if (auth && auth.hasOwnProperty('error')) {
+                            console.log('Sign in failed because: ', auth.error);
+                        }
+
+                    }
+                };
+
+                $(document).ready(function() {
+                    $('#signoutButton').click(function() {
+                        gapi.auth.signOut();
+                        $(this).hide();
+                        $('#signinButton').show();
+                    });
+
+                    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+                    po.src = 'https://apis.google.com/js/client:plusone.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+
+                    Game.init();
+
+                });
+            </script>
+            </body>
+          </html>
