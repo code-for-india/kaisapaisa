@@ -289,7 +289,35 @@ var Game = {
             self.showThingInfo(l);
         }
 
+        self.renderResult();
    }
+
+   ,renderResult: function() {
+
+        var self = this;
+
+        var financialInfo = self.getFinancialState();
+
+        var cashAssets = financialInfo.assets.bankAmount + financialInfo.assets.piggyBankAmount + financialInfo.assets.cash;
+        var income = financialInfo.incomes.bankIncome + financialInfo.incomes.animalIncome + financialInfo.incomes.thingIncome;
+        var expenses = financialInfo.expenses.animalExpense + financialInfo.expenses.householdExpense + financialInfo.goals.collegeExpense;
+
+        for(var y=0; y<self.period; y++) {
+
+            var html = '<h2>Is (Cash Assets + Income) > Expenses?</h2>';
+            html += '<h2>Cash Assets + Income = Rs. ' + formatRupees(cashAssets) + ' + Rs. ' + formatRupees(income) + ' = Rs. ' + formatRupees(cashAssets + income) + '</h2>';
+            html += '<h2>Expenses = Rs. ' + formatRupees(expenses) + '</h2>';
+            if ((cashAssets+income) > expenses) {
+                html += '<h2>YES! You have provided good financial advice to farmer Hari</h2>';
+            }
+            else
+            {
+                html += '<h2>NO! Try again</h2>';
+            }
+
+            $('#ResultSectionContent').html(html);
+        }
+    }
 
    ,showAnimalInfo: function(index) {
         var self = this;
@@ -454,6 +482,7 @@ var Game = {
             ,cash: 0
             ,bankInterestRate: getRandomInt(8,14)
             ,bankAmount: 0
+            ,bankIncome: 0
             ,piggyBankAmount: 0
             ,period: gamePeriod
             ,children: []
