@@ -31,14 +31,7 @@
                     </a>
                     <a href="index.html" class="brand"><img src="assets/images/logo.png" alt="logo" style="height:50px;" /></a>
                     <div class='nav-collapse subnav-collapse collapse pull-right' id='top-navigation'>
-                      <!--ul class='nav'>
-                        <li class='active'>
-                          <a href="index.html">Home</a>
-                        </li>
-                        <li class=''>
-                          <a href="about.html">About</a>
-                        </li>
-                      </ul-->
+
                       <div class='top-account-control visible-desktop'>
                             <button id="signoutButton" class="btn btn-info hide">sign out</button>
                             <span id="signinButton">
@@ -67,7 +60,7 @@
                         <div class='info-bullet'>
                             <i class='icon-money'></i>
                             <h5>Money Game for Kids</h5>
-                            <p style="font-size:1.5em;">Kaisa Paisa teaches youth how to make better financial decisions.</p>
+                            <p style="font-size:1.5em;">Kaisa?Paisa teaches youth how to make better financial decisions.</p>
                         </div>
                     </div>
                 </div>
@@ -108,15 +101,24 @@
                                         <div class="row-fluid">
                                             <div class="span6">
                                                 <div class="well">
-                                                    <h2>What Hari has</h2>
+                                                    <h2>What Hari has:</h2>
                                                 </div>
-                                                <div id="HariHas"></div>
+                                                <div id="HariHas">
+                                                    <h4 style="margin-bottom:15px;font-size:1.8em;"><i class="icon icon-check"></i> Cash Savings of Rs. <span id="CashSavings"></span></h4>
+                                                    <h4 style="margin-bottom:15px;font-size:1.8em;"><i class="icon icon-check"></i> Property valued at Rs. <span id="PropertyValue"></span> that can create income of Rs. <span id="PropertyIncome"></span> annually</h4>
+                                                    <h4 style="margin-bottom:15px;font-size:1.8em;"><i class="icon icon-check"></i> Livestock valued at Rs. <span id="LivestockValue"></span> that can create income of Rs. <span id="LivestockIncome"></span></h4>
+                                                    <h4 style="margin-bottom:15px;font-size:1.8em;"><i class="icon icon-check"></i> Children</h4>
+                                                    <div id="Children"></div>
+                                                </div>
                                             </div>
                                             <div class="span6">
                                                 <div class="well">
-                                                    <h2>What Hari needs</h2>
+                                                    <h2>What Hari needs:</h2>
                                                 </div>
-                                                <div id="HariNeeds"></div>
+                                                <div id="HariNeeds">
+                                                    <h4 style="margin-bottom:15px;font-size:1.8em;"><i class="icon icon-check"></i> Annual cash amount of Rs. <span id="HouseholdCash"></span> for his household</h4>
+                                                    <h4 style="margin-bottom:15px;font-size:1.8em;" id="CollegeBlurb"><i class="icon icon-check"></i> Annual cash amount of Rs. <span id="CollegeCash"></span> so <span id="CollegeCount"></span> of his children can go to college</h4>
+                                                </div>
 
 
                                             </div>
@@ -171,12 +173,12 @@
                                     <div id='LivestockSectionContent'></div>
                                 </div>
                                 <div class='tab-pane' id='PropertySection'>
-                                    <h4 style="margin: 15px 0">Your farm has livestock. You make money by selling the milk or eggs given by the animals. If you sell an animal, you will no longer make any money from it. If you keep the animal, you must pay to feed it and make sure it remains healthy.</h4>
+                                    <h4 style="margin: 15px 0">Your have property that can be used for Agriculture or rented to others for income. Since Agriculture depends on weather, if the weather is dry you will have less income.</h4>
                                     <div id='PropertySectionContent'></div>
                                 </div>
 
                                 <div class='tab-pane' id='ResultSection'>
-                                    <h4 style="margin: 15px 0">Your farm has livestock. You make money by selling the milk or eggs given by the animals. If you sell an animal, you will no longer make any money from it. If you keep the animal, you must pay to feed it and make sure it remains healthy.</h4>
+                                    <h4 style="margin: 15px 0">Based on the decisions you made, here are the results for farmer Hari.</h4>
                                     <div id='ResultSectionContent'></div></div>
                             </div>
 

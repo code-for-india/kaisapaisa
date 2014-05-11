@@ -122,6 +122,29 @@ var Game = {
    ,renderUI: function() {
         var self = this;
 
+        var financialInfo = self.getFinancialState();
+
+        $('#CashSavings').text(formatRupees(self.initialCash));
+        $('#PropertyValue').text(formatRupees(financialInfo.assets.thingValue));
+        $('#PropertyIncome').text(formatRupees(financialInfo.incomes.thingIncome/self.period));
+
+        $('#LivestockValue').text(formatRupees(financialInfo.assets.animalValue));
+        $('#LivestockIncome').text(formatRupees(financialInfo.incomes.animalIncome/self.period));
+
+        for(var c=0;c<self.children.length;c++) {
+            $('#Children').append('<img src="assets/images/' + (self.children[c].gender == 'f' ? 'girl' : 'boy') + '.jpg" style="width:150px;margin-right:5px;margin-top:5px;" />');
+        }
+
+        $('#HouseholdCash').text(formatRupees(financialInfo.expenses.householdExpense/self.period));
+        if (financialInfo.info.collegeCount == 0) {
+            $('#CollegeBlurb').hide();
+        }
+        else
+        {
+            $('#CollegeCash').text(formatRupees(financialInfo.goals.collegeExpense/self.period));
+            $('#CollegeCount').text(formatRupees(financialInfo.info.collegeCount));
+        }
+
         self.refreshPiggyBankUI();
 
         $('#BankRate').append(self.bankInterestRate + '%');
@@ -206,10 +229,11 @@ var Game = {
                 html += '<span id="Property-Label-' + l + '-' + p + '" style="margin-right:20px;font-size:16px;">YEAR ' + (p+1) + ':</span>';
 
                 html += '<select id="Property-Selector-' + l + '-' + p + '">' +
-                    '<option value="using">Earn Rs.' + formatRupees(thing.annualAgricultureIncome) + ' for agriculture use</option>' +
+                    '<option value="using">Earn Rs.' + formatRupees(self.dryWeather[p] ? Math.round(thing.annualAgricultureIncome * 0.8) : thing.annualAgricultureIncome) + ' for agriculture use</option>' +
                     '<option value="rented">Rent for Rs.' + formatRupees(thing.annualRentIncome) + '</option>' +
                     '<option value="sold">Sell for Rs.' + formatRupees(thing.sellingPrice) + '</option>' +
                     '</select>';
+                html += self.dryWeather[p] ? ' <span style="color:red">[DRY]</span>' : '';
                 html += '</div>'
 
             }
@@ -223,34 +247,46 @@ var Game = {
                 var index = parseInt(id[2]);
                 var year = parseInt(id[3]);
 
-                if ($(this).val() == 'sell')
+                if ($(this).val() == 'sold')
                 {
-                    self.sellAnimal(index,year);
+                    self.sellThing(index,year);
                     for(var x=year+1;x<self.period;x++) {
-                        $('#Livestock-Selector-' + index + '-' + x).hide().val('sell');
-                        $('#Livestock-Label-' + index + '-' + x).hide();
+                        $('#Property-Selector-' + index + '-' + x).hide().val('sold');
+                        $('#Property-Label-' + index + '-' + x).hide();
                     }
 
                 }
-                else
+                else if($(this).val() == 'rented')
                 {
-                    self.unsellAnimal(index,year);
+                    self.rentThing(index,year);
                     for(var x=year+1;x<self.period;x++) {
-                        if ($('#Livestock-Selector-' + index + '-' + x).val() != 'sell') {
+                        if ($('#Property-Selector-' + index + '-' + x).val() != 'sold') {
 
-                            $('#Livestock-Selector-' + index + '-' + x).show();
-                            $('#Livestock-Label-' + index + '-' + x).show();
+                            $('#Property-Selector-' + index + '-' + x).show();
+                            $('#Property-Label-' + index + '-' + x).show();
 
                         }
                     }
 
                 }
+                else
+                {
+                    self.resetThing(index,year);
+                    for(var x=year+1;x<self.period;x++) {
+                        if ($('#Property-Selector-' + index + '-' + x).val() != 'sold') {
 
-                self.showAnimalInfo(index);
+                            $('#Property-Selector-' + index + '-' + x).show();
+                            $('#Property-Label-' + index + '-' + x).show();
+
+                        }
+                    }
+
+                }
+                self.showThingInfo(index);
 
             });
 
-           // self.showAnimalInfo(l);
+            self.showThingInfo(l);
         }
 
    }
@@ -275,9 +311,37 @@ var Game = {
         }
         var total =  income - expense + saleMoney;
         $('#Livestock-Info-' + index).html('<h3>Money</h3>' +
-            (income > 0 ? '<div style="color:green;"><i class="icon-dark icon-plus-sign"></i> Earning: Rs.' + formatRupees(income) + '</div>' : '') +
-            (expense > 0 ? '<div style="color:red;"><i class="icon-dark icon-minus-sign"></i> Expense: Rs.' + formatRupees(expense) + '</div>' : '') +
-            (saleMoney > 0 ? '<div style="color:green;"><i class="icon-dark icon-plus-sign"></i> Sold: Rs.' + formatRupees(saleMoney) + '</div>' : '') +
+            (income > 0 ? '<div style="color:green;"><i class="icon-dark icon-plus-sign"></i> Earnings: Rs.' + formatRupees(income) + '</div>' : '') +
+            (expense > 0 ? '<div style="color:red;"><i class="icon-dark icon-minus-sign"></i> Expenses: Rs.' + formatRupees(expense) + '</div>' : '') +
+            (saleMoney > 0 ? '<div style="color:green;"><i class="icon-dark icon-plus-sign"></i> Sale Amount: Rs.' + formatRupees(saleMoney) + '</div>' : '') +
+            '<div style="margin-top: 20px;"><i class="icon-dark icon-money"></i> <b>Total: Rs.' + formatRupees(total) + '</b></div>');
+    }
+
+    ,showThingInfo: function(index) {
+        var self = this;
+        var income = 0;
+
+        var saleMoney = 0;
+
+        for(var w=0;w<self.period;w++) {
+            if (self.things[index].status[w] === 'sold') {
+                saleMoney = self.things[index].sellingPrice;
+                break;
+            }
+            else if (self.things[index].status[w] === 'rented')
+            {
+                income += self.things[index].annualRentIncome;
+            }
+            else
+            {
+                income += self.dryWeather[w] ? Math.round(self.things[index].annualAgricultureIncome * 0.8) : self.things[index].annualAgricultureIncome;
+            }
+
+        }
+        var total =  income + saleMoney;
+        $('#Property-Info-' + index).html('<h3>Money</h3>' +
+            (income > 0 ? '<div style="color:green;"><i class="icon-dark icon-plus-sign"></i> Earnings: Rs.' + formatRupees(income) + '</div>' : '') +
+            (saleMoney > 0 ? '<div style="color:green;"><i class="icon-dark icon-plus-sign"></i> Sale Amount: Rs.' + formatRupees(saleMoney) + '</div>' : '') +
             '<div style="margin-top: 20px;"><i class="icon-dark icon-money"></i> <b>Total: Rs.' + formatRupees(total) + '</b></div>');
     }
    ,getFinancialState: function() {
@@ -286,6 +350,10 @@ var Game = {
         var animalIncome = 0;
         var animalExpense = 0;
         var animalValue = 0;
+
+        var thingIncome = 0;
+        var thingValue = 0;
+
         for(var i=0;i<self.animals.length;i++)
         {
             for(var p=0;p<self.period;p++)
@@ -298,9 +366,29 @@ var Game = {
                 {
                     animalIncome += self.animals[i].annualIncome;
                     animalExpense += self.animals[i].annualExpense;
-                    animalValue += self.animals[i].sellingPrice;
                 }
             }
+
+            animalValue += self.animals[i].sellingPrice;
+        }
+
+        for(var i=0;i<self.things.length;i++)
+        {
+            for(var p=0;p<self.period;p++)
+            {
+                if (self.things[i].status[p] === 'sold'){
+                    thingIncome += self.things[i].sellingPrice;
+                    break;
+                }
+                else if (self.things[i].status[p] === 'rented'){
+
+                    thingIncome += self.things[i].annualRentIncome;
+                }
+                else {
+                    thingIncome += self.dryWeather[p] ? Math.round(self.things[i].annualAgricultureIncome * 0.8) : self.things[i].annualAgricultureIncome;
+                }
+            }
+            thingValue += self.things[i].sellingPrice;
         }
 
         var householdExpense = 0;
@@ -310,10 +398,12 @@ var Game = {
         }
 
         var collegeExpense = 0;
+        var collegeKidCount = 0;
         for(var c=0;c<self.children.length;c++)
         {
             if (self.children[c].college)
             {
+                collegeKidCount++;
                 collegeExpense += (constants.ANNUAL_COLLEGE_EXPENSE * self.period);
             }
         }
@@ -324,10 +414,12 @@ var Game = {
                 ,bankAmount: self.bankAmount
                 ,piggyBankAmount: self.piggyBankAmount
                 ,animalValue: animalValue
+                ,thingValue: thingValue
              }
             ,incomes: {
                  bankIncome: self.bankIncome
                 ,animalIncome: animalIncome
+                ,thingIncome: thingIncome
 
             }
             ,expenses: {
@@ -337,12 +429,15 @@ var Game = {
             ,goals:{
                 collegeExpense: collegeExpense
             }
+            ,info: {
+                collegeCount: collegeKidCount
+            }
 
         }
 
         $.extend(financialInfo, {
-             totalAssets: financialInfo.assets.cash + financialInfo.assets.bankAmount + financialInfo.assets.piggyBankAmount + financialInfo.assets.animalValue
-            ,totalIncome: financialInfo.incomes.bankIncome + financialInfo.incomes.animalIncome
+             totalAssets: financialInfo.assets.cash + financialInfo.assets.bankAmount + financialInfo.assets.piggyBankAmount + financialInfo.assets.animalValue + financialInfo.assets.thingValue
+            ,totalIncome: financialInfo.incomes.bankIncome + financialInfo.incomes.animalIncome + financialInfo.incomes.thingIncome
             ,totalExpense: financialInfo.expenses.animalExpense + financialInfo.expenses.householdExpense
             ,totalGoal: financialInfo.goals.collegeExpense
         });
@@ -470,22 +565,23 @@ var Game = {
 
         }
     }
+    ,resetThing: function(index, year) {
+        var self = this;
+        if ((index > self.things.length-1) || (year> self.period-1)) return;
+        for(var p=year;p>=0;p--)
+        {
+            if (self.things[index].status[year] == 'sold') {
+            self.things[index].status[p] = 'using';
+            }
 
+        }
+    }
     ,rentThing: function(index, year) {
 
         var self = this;
         if ((index > self.things.length-1) || (year > self.period-1)) return;
         if (self.things[index].status[year] != 'sold') {
             self.things[index].status[year] = 'rented';
-        }
-    }
-
-    ,unrentThing: function(index, year) {
-
-        var self = this;
-        if ((index > self.things.length-1) || (year > self.period-1)) return;
-        if (self.things[index].status[year] == 'rented') {
-            self.things[index].status[year] = 'using';
         }
     }
 
